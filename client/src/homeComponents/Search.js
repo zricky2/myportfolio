@@ -5,14 +5,7 @@ export default function Search() {
 
     async function getStock() {
         const symbol = searchBar.current.value.toUpperCase()
-        const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=30min&apikey=${process.env.API_KEY}`
-        try {
-            const response = await fetch(url)
-            const data = await response.json()
-            window.location = `/${symbol}`
-        } catch(err) {
-            alert(err)
-        }
+        window.location = `/${symbol}`
     }
     return (
         <div>

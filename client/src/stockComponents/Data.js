@@ -12,15 +12,15 @@ export default function Data({ ticker }) {
         try {
             const response = await fetch('/stock', {
                 method: 'POST', 
-                body: JSON.stringify({ stock: "AMD" }),
+                body: JSON.stringify({ stock: ticker }),
                 headers: { 'Content-Type': 'application/json' }
             })
             const data = await response.json()
-            console.log(data)
+            console.log("data")
             setDataSet(data)
         } catch (err) {
-            alert(err)
-            return null
+            console.log(err)
+            alert("Error: " + err)
         }
     }
 
@@ -40,9 +40,9 @@ export default function Data({ ticker }) {
             volume.push(dataSet[time]["5. volume"])
             times.push(time)
         }
-        setOpenData(open)
+        setOpenData(open.reverse())
         setCloseData(close.reverse())
-        setVolumeData(volume)
+        setVolumeData(volume.reverse())
         setTime(times.reverse())
     },[dataSet])
 
@@ -54,13 +54,13 @@ export default function Data({ ticker }) {
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
+                borderColor: '#00cc00',
                 borderCapStyle: 'butt',
                 borderDash: [],
                 borderDashOffset: 0.0,
                 borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(75,192,192,1)',
-                pointBackgroundColor: '#fff',
+                pointBorderColor: '#00cc00',
+                pointBackgroundColor: '#00cc00',
                 pointBorderWidth: 1,
                 pointHoverRadius: 5,
                 pointHoverBackgroundColor: 'rgba(75,192,192,1)',
