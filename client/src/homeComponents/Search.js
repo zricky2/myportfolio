@@ -7,6 +7,16 @@ export default function Search() {
         const symbol = searchBar.current.value.toUpperCase()
         window.location = `/${symbol}`
     }
+
+    async function getList() {
+        const tickerList = await fetch('/tickerlist', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        console.log(tickerList)
+    }
+
+    getList()
     return (
         <div>
             <label>Type a Stock Ticker</label>

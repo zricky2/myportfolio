@@ -5,39 +5,47 @@ export default function Signin() {
     const password = useRef()
 
     return (
-        <div>
-            <form >
-                <div class="container">
-                    <h1>Sign-in</h1>
+        <form onSubmit={login}>
+            <div className="container">
+                <h1>Sign-in</h1>
 
-                    <label for="email"><b>Email</b></label>
-                    <input type="text" placeholder="Enter Email" name="email" id="email" required />
+                <label htmlFor="email"><b>Email</b></label>
+                <input ref = { email } type="text" placeholder="Enter Email" name="email" id="email" required />
 
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" id="psw" required />
+                <label htmlFor="psw"><b>Password</b></label>
+                <input ref = { password } type="password" placeholder="Enter Password" name="psw" id="psw" required />
 
-                    <p>By creating an account you agree to our <a href="#">Terms and Privacy</a>.</p>
-                    <button type="submit" class="registerbtn">Sign-in</button>
-                </div>
+                <button type="submit" className="registerbtn">Sign-in</button>
+            </div>
 
-                <div class="container signin">
-                    <p>Do not have an account? <a href="/register">Sign-up</a>.</p>
-                </div>
-            </form>
-        </div>
+            <div className="container signin">
+                <p>Do not have an account? <a href="/register">Sign-up</a>.</p>
+            </div>
+        </form>
+
     )
 
-    async function login() {
+    async function login(e) {
         try {
+            e.preventDefault();
+            let formData =  {
+                email: email.current.value,
+                password: password.current.value
+            }
+            formData = JSON.stringify(formData)
             const response = await fetch('/signin', {
-                method: 'POST', 
-                body: JSON.stringify({}),
+                method: 'POST',
+                body: formData,
                 headers: { 'Content-Type': 'application/json' }
             })
-            const data = await response.json()
+            const result = await response.json()
+            if (result.result === "Success") {
+                window.location.href = '/'
+            } else {
+                alert(result.result)
+            }
         } catch (err) {
             alert(err)
-            return null
         }
     }
 }

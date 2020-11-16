@@ -6,26 +6,24 @@ export default function Register() {
 
     return (
         <form onSubmit={register}>
-            <div class="container">
+            <div className="container">
                 <h1>Register</h1>
                 <p>Please fill in this form to create an account.</p>
 
-                <label for="email"><b>Email</b></label>
+                <label htmlFor="email"><b>Email</b></label>
                 <input ref = { email } type="text" placeholder="Enter Email" name="email" id="email" required />
 
-                <label for="psw"><b>Password</b></label>
+                <label htmlFor="psw"><b>Password</b></label>
                 <input ref = { password } type="password" placeholder="Enter Password" name="psw" id="psw" required />
 
-                <p>By creating an account you agree to our <a href="#">Terms and Privacy</a>.</p>
-                <button type="submit" class="registerbtn">Register</button>
+                <button type="submit" className="registerbtn">Register</button>
             </div>
 
-            <div class="container signin">
+            <div className="container signin">
                 <p>Already have an account? <a href="/signin">Sign in</a>.</p>
             </div>
         </form>
     )
-
 
     async function register(e) {
         try {
@@ -41,10 +39,13 @@ export default function Register() {
                 headers: { 'Content-Type': 'application/json' }
             })
             const result = await response.json()
-            console.log(result)
+            if (result.result === "Success") {
+                window.location.href = '/'
+            } else {
+                alert(result.result)
+            }
         } catch (err) {
             alert(err)
-            return null
         }
     }
 

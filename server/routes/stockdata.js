@@ -1,18 +1,15 @@
 const router = require('express').Router()
-const bodyParser = require('body-parser')
 const axios = require('axios')
-
-router.use(bodyParser.urlencoded({extended:false})) 
-router.use(bodyParser.json()); //allows you to use req.body
 
 router.post('/stock', async (req, res) => {
     try {
+        console.log(req.body.stock)
         const data = await getStock(req.body.stock)
         console.log("Data is returned")
-        res.send(data)
+        res.json({result: data})
     } catch (err) {
         console.log(err)
-        res.send(err)
+        res.json({error: err})
     }
 })
 
