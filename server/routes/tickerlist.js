@@ -21,6 +21,4 @@ router.get('/tickerlist', async (req, res) => {
     }
 })
 
-
-
 module.exports = router;
