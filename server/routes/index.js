@@ -1,28 +1,23 @@
 const router = require('express').Router()
+const csv = require('csvtojson')
+//const fs = require('fs')
 
-router.get('/', async (req, res) => {
+router.get('/index', async (req, res) => {
     try {
-        const data = await getListing()
-        console.log("Data is returned")
-        res.send(data)
+        const jsonArray = await csv().fromFile('./listing_status.csv');
+        let newList = []
+        jsonArray.forEach(stock => {
+            newList.push({symbol: stock.symbol, name: stock.name})
+        })
+        const data = JSON.stringify(newList)
+        /* fs.writeFile('./tickers.json', data, (err) => {
+            if (err) throw err;
+            console.log('Saved!');
+         })  */
+        res.status(200).json(data);
     } catch (err) {
         console.log(err)
-        res.send(err)
     }
 })
 
-async function getListing() {
-    const functionType = 'LISTING_STATUS'
-    const url = `https://www.alphavantage.co/query?function=${functionType}&apikey=${process.env.API_KEY}`
-    try {
-        const response = await axios(url)
-        const keys = Object.keys(response.data); //returns the two keys on the first level
-        const timeSeries = response.data[keys[1]];
-        return timeSeries
-    } catch (err) {
-        console.log(err)
-        return null
-    }
-}
-
-module.exports = router
+module.exports = router;

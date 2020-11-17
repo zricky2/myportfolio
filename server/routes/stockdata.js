@@ -5,8 +5,7 @@ router.post('/stock', async (req, res) => {
     try {
         console.log(req.body.stock)
         const data = await getStock(req.body.stock)
-        console.log("Data is returned")
-        res.json({result: data})
+        res.json(data)
     } catch (err) {
         console.log(err)
         res.json({error: err})

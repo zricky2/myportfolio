@@ -1,22 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 export default function Search() {
+    const [list, setList] = useState([])
     const searchBar = useRef()
 
-    async function getStock() {
-        const symbol = searchBar.current.value.toUpperCase()
-        window.location = `/${symbol}`
-    }
+    useEffect(() => {
+        setList(getList())
+    }, [])
 
-    async function getList() {
-        const tickerList = await fetch('/tickerlist', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        console.log(tickerList)
-    }
-
-    getList()
     return (
         <div>
             <label>Type a Stock Ticker</label>
@@ -24,4 +15,17 @@ export default function Search() {
             <button onClick={getStock}>Search</button>
         </div>
     )
+
+    async function getStock() {
+        const symbol = searchBar.current.value.toUpperCase()
+        window.location = `/${symbol}`
+    }
+
+    async function getList() {
+        const response = await fetch('/index', {
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const tickerList = await response.json()
+        return tickerList
+    }
 }
