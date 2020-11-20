@@ -1,34 +1,43 @@
 import React, { useRef } from 'react'
+import 'bulma/css/bulma.css';
+import '../styles/Register.css';
 
 export default function Register() {
     const email = useRef()
     const password = useRef()
 
     return (
-        <form onSubmit={register}>
-            <div className="container">
-                <h1>Register</h1>
-                <p>Please fill in this form to create an account.</p>
+        <div className="container">
+            <div className="columns">
+                <div className="column is-half">
+                    <form className="field" onSubmit={register}>
+                        <div>
+                            <p>Please fill in this form to create an account.</p>
+                            <label className="label">Email</label>
+                            <div className="control">
+                                <input className="input" ref={email} type="email" placeholder="Enter Email" name="email" id="email" required />
+                            </div>
 
-                <label htmlFor="email"><b>Email</b></label>
-                <input ref = { email } type="text" placeholder="Enter Email" name="email" id="email" required />
+                            <label className="label">Password</label>
+                            <div className="control">
+                                <input className="input" ref={password} type="password" placeholder="Enter Password" name="psw" id="psw" required />
+                            </div>
+                            <button type="submit" className="button" id="registerbtn">Register</button>
+                        </div>
 
-                <label htmlFor="psw"><b>Password</b></label>
-                <input ref = { password } type="password" placeholder="Enter Password" name="psw" id="psw" required />
-
-                <button type="submit" className="registerbtn">Register</button>
+                        <div className="container signin">
+                            <p>Already have an account? <a href="/signin">Sign in</a>.</p>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div className="container signin">
-                <p>Already have an account? <a href="/signin">Sign in</a>.</p>
-            </div>
-        </form>
+        </div>
     )
 
     async function register(e) {
         try {
             e.preventDefault();
-            let formData =  {
+            let formData = {
                 email: email.current.value,
                 password: password.current.value
             }
@@ -39,7 +48,7 @@ export default function Register() {
                 headers: { 'Content-Type': 'application/json' }
             })
             const result = await response.json()
-            if (result.result === "Success") {
+            if (response.status === 200 && result.result === "Success") {
                 window.location.href = '/'
             } else {
                 alert(result.result)

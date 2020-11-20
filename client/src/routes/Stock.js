@@ -1,6 +1,7 @@
 import React from 'react'
 import Data from '../stockComponents/Data'
-
+import '../styles/Data.css'
+ 
 export default function Stock({ match }) {
     return (
         <div>

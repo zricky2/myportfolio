@@ -1,5 +1,6 @@
 import React, { props, useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
+import '../styles/Data.css'
 
 export default function Data({ ticker }) {
     const [dataSet, setDataSet] = useState()
@@ -8,14 +9,15 @@ export default function Data({ ticker }) {
     const [volumeData, setVolumeData] = useState([])
     const [time, setTime] = useState([])
 
-    async function getStock() {
+    async function getStock(functionType, interval) {
         try {
             const response = await fetch('/stock', {
                 method: 'POST', 
-                body: JSON.stringify({ stock: ticker }),
+                body: JSON.stringify({ stock: ticker, functionType: functionType, interval: interval}),
                 headers: { 'Content-Type': 'application/json' }
             })
             const data = await response.json()
+            console.log(data);
             setDataSet(data)
         } catch (err) {
             console.log(err)
@@ -24,8 +26,9 @@ export default function Data({ ticker }) {
     }
 
     useEffect(() => {
-        getStock()
-    },[])
+        getStock('TIME_SERIES_INTRADAY', '30min')
+    }, [])
+
     
     useEffect(() => {
         let close = []
@@ -77,8 +80,15 @@ export default function Data({ ticker }) {
             <Line
                 data={chartData}
                 width={100}
-                height={50}
+                height={40}
+                options={{}}
             />
+            <div class="btn-group">
+                <button onClick={() => {getStock("TIME_SERIES_DAILY", '30min')}}>Daily</button>
+                <button onClick={() => {getStock("TIME_SERIES_WEEKLY")}}>Weekly</button>
+                <button onClick={() => {getStock("TIME_SERIES_Monthly")}}>Monthly</button>
+            </div>
+
         </div>
     )
 }

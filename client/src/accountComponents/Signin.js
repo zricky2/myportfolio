@@ -1,34 +1,40 @@
 import React, { useRef } from 'react'
+import 'bulma/css/bulma.css';
 
 export default function Signin() {
     const email = useRef()
     const password = useRef()
 
     return (
-        <form onSubmit={login}>
-            <div className="container">
-                <h1>Sign-in</h1>
-
-                <label htmlFor="email"><b>Email</b></label>
-                <input ref = { email } type="text" placeholder="Enter Email" name="email" id="email" required />
-
-                <label htmlFor="psw"><b>Password</b></label>
-                <input ref = { password } type="password" placeholder="Enter Password" name="psw" id="psw" required />
-
-                <button type="submit" className="registerbtn">Sign-in</button>
+        <div className="container">
+            <div className="columns">
+                <div className="column is-half">
+                    <form className="field" onSubmit={login}>
+                        <div>
+                            <p>Sign in below</p>
+                            <label className="label">Email</label>
+                            <div className="control">
+                                <input className="input" ref={email} type="email" placeholder="Enter Email" name="email" id="email" required />
+                            </div>
+                            <label className="label">Password</label>
+                            <div className="control">
+                                <input className="input" ref={password} type="password" placeholder="Enter Password" name="psw" id="psw" required />
+                            </div>
+                            <button type="submit" className="button">Sign-in</button>
+                        </div>
+                        <div className="container signin">
+                            <p>Do not have an account? <a href="/register">Sign-up</a>.</p>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div className="container signin">
-                <p>Do not have an account? <a href="/register">Sign-up</a>.</p>
-            </div>
-        </form>
-
+        </div>
     )
 
     async function login(e) {
         try {
             e.preventDefault();
-            let formData =  {
+            let formData = {
                 email: email.current.value,
                 password: password.current.value
             }
@@ -38,8 +44,9 @@ export default function Signin() {
                 body: formData,
                 headers: { 'Content-Type': 'application/json' }
             })
-            const result = await response.json()
-            if (result.result === "Success") {
+            const result = await response.json() 
+            console.log(response)
+            if (response.status === 200 ) {
                 window.location.href = '/'
             } else {
                 alert(result.result)

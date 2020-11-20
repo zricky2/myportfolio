@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken")
 router.post('/signin', async (req, res) => {
     const jwtKey = process.env.jwtKey
     const jwtExpirySeconds = 300
-    console.log(req.body.email)
     try {
         const client = await userModel.findOne({ email: req.body.email });
         if (!client) {
@@ -20,8 +19,9 @@ router.post('/signin', async (req, res) => {
                 algorithm: "HS256",
                 expiresIn: jwtExpirySeconds,
             })
-            console.log("token:", token)
-            res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+            //console.log("token:", token)
+            res.status(200).json({result: "success"})
+            //cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
         } else {
             res.status(400).json({ result: "Email and/or Password is incorrect" })
             console.log("Email and/or Password is incorrect")

@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
+import '../styles/Search.css'
+import stockimg from '../img/stock.jpg'
+import 'bulma/css/bulma.css';
 
 export default function Search() {
     const [list, setList] = useState([])
@@ -10,9 +13,13 @@ export default function Search() {
 
     return (
         <div>
-            <label>Type a Stock Ticker</label>
-            <input ref={searchBar} input="text" className="search" placeholder="AMD" />
-            <button onClick={getStock}>Search</button>
+            <div className="level-left">
+                <label className="level-item mr-2">Type a Stock Ticker</label>
+                <input ref={searchBar} input="text" className="search level-item mr-2" placeholder="Search stock..." />
+                <button className="button is-rounded level-item" onClick={getStock}>Search</button>
+                </div>
+                <img className = 'stockimg' src= {stockimg}></img>
+
         </div>
     )
 

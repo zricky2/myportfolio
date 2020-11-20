@@ -3,8 +3,7 @@ const axios = require('axios')
 
 router.post('/stock', async (req, res) => {
     try {
-        console.log(req.body.stock)
-        const data = await getStock(req.body.stock)
+        const data = await getStock(req.body.stock, req.body.functionType, req.body.interval)
         res.json(data)
     } catch (err) {
         console.log(err)
@@ -12,11 +11,11 @@ router.post('/stock', async (req, res) => {
     }
 })
 
-async function getStock(ticker) {
-    const functionType = 'TIME_SERIES_INTRADAY'
+async function getStock(ticker, functionType, interval='') {
+    //const functionType = 'TIME_SERIES_INTRADAY'
     const symbol = ticker.toUpperCase()
-    const interval = '30min'
-    const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${symbol}&interval=${interval}&apikey=${process.env.API_KEY}`
+    //const interval = '30min'
+    const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${symbol}&interval=${interval}&outputsize=full&apikey=${process.env.API_KEY}`
     try {
         const response = await axios(url)
         const keys = Object.keys(response.data); //returns the two keys on the first level
