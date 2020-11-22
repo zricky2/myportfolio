@@ -1,8 +1,5 @@
 const router = require('express').Router()
 const axios = require('axios')
-const { JsonWebTokenError } = require('jsonwebtoken')
-const jwt = require("jsonwebtoken")
-const userModel = require('../model/usermodel')
 
 
 router.post('/stock', async (req, res) => {
@@ -14,38 +11,6 @@ router.post('/stock', async (req, res) => {
         res.json({error: err})
     }
 })
-
-router.post('/watchlist', async (req, res) => {
-    try {
-        const data = await getStock(req.body.stock, req.body.interval)
-        res.json(data)
-    } catch (err) {
-        console.log(err)
-        res.json({error: err})
-    }
-})
-
-router.get('/watchlist', authenticateUser, (req, res) => {
-
-   res.json(posts.filter(post => post.username === req.user.name));
-})
-
-function authenticateUser(req, res, next) {
-    const authenticationHeader = req.headers['authorization'];
-    const tome = authenticationHeader && authenticationHeader.split(' ')[1];
-    if(token == null) return res.sendStatus(401);
-    jwt.verify(token, process.env.jwtKey, (err, user) => {
-        if(err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    })
-}
-
-router.get('/logout', logout_get);
-
-function logout_get(req, res) {
-    res.cookie('jwt', '', {maxAge: 1});
-}
 
 async function getStock(ticker, interval='') {
     //const functionType = 'TIME_SERIES_INTRADAY'
