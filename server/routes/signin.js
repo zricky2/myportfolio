@@ -17,11 +17,13 @@ router.post('/signin', async (req, res) => {
             // and which expires 300 seconds after issue
             const token = jwt.sign({ client }, jwtKey, {
                 algorithm: "HS256",
-                expiresIn: jwtExpirySeconds,
+                expiresIn: "1hr",
             })
             //console.log("token:", token)
-            res.status(200).json({result: "success"})
-            //cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+            res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+
+            res.status(200).json({result: "success",
+                                  token: token})
         } else {
             res.status(400).json({ result: "Email and/or Password is incorrect" })
             console.log("Email and/or Password is incorrect")

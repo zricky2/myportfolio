@@ -8,8 +8,7 @@ export default function Register() {
 
     return (
         <div className="container">
-            <div className="columns">
-                <div className="column is-half">
+            <div className="columns" id="regCol">
                     <form className="field" onSubmit={register}>
                         <div>
                             <p>Please fill in this form to create an account.</p>
@@ -29,7 +28,6 @@ export default function Register() {
                             <p>Already have an account? <a href="/signin">Sign in</a>.</p>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     )

@@ -8,17 +8,19 @@ export default function Data({ ticker }) {
     const [openData, setOpenData] = useState([])
     const [volumeData, setVolumeData] = useState([])
     const [time, setTime] = useState([])
+    const [type, setType] = useState([])
 
-    async function getStock(functionType, interval) {
+    async function getStock(interval, type) {
         try {
             const response = await fetch('/stock', {
                 method: 'POST', 
-                body: JSON.stringify({ stock: ticker, functionType: functionType, interval: interval}),
+                body: JSON.stringify({ stock: ticker, interval: interval}),
                 headers: { 'Content-Type': 'application/json' }
             })
             const data = await response.json()
-            console.log(data);
-            setDataSet(data)
+            setType(type);
+            console.log(type)
+            setDataSet(data);
         } catch (err) {
             console.log(err)
             alert("Error: " + err)
@@ -26,7 +28,7 @@ export default function Data({ ticker }) {
     }
 
     useEffect(() => {
-        getStock('TIME_SERIES_INTRADAY', '30min')
+        getStock('5min', 'd');
     }, [])
 
     
@@ -36,12 +38,45 @@ export default function Data({ ticker }) {
         let volume = []
         let times = []
         let time;
+        let count;
+        
+        if (type === 'd'){
+            count = 1;
+        } else if (type ==='w'){
+            console.log('weeek')
+            count = 5;
+        } else if(type === 'm') {
+            count = 20;   
+        }else {
+            count = 1;
+        }
+        let i = 0;
+        let index = 0;
+        let prevTime;
+        let curTime;
+        
         for (time in dataSet) {
+            if(index++ === 0) {
+                prevTime = time;
+            } else {
+                curTime = time;
+                if(curTime.slice(0,10) !== prevTime.slice(0,10)) {
+                    i++;
+                }
+                prevTime = curTime;
+            }
+
+            if(i === count) {
+                break;
+            }
+
             open.push(dataSet[time]["1. open"])
             close.push(dataSet[time]["4. close"])
             volume.push(dataSet[time]["5. volume"])
             times.push(time)
         }
+
+        
         setOpenData(open.reverse())
         setCloseData(close.reverse())
         setVolumeData(volume.reverse())
@@ -83,10 +118,10 @@ export default function Data({ ticker }) {
                 height={40}
                 options={{}}
             />
-            <div class="btn-group">
-                <button onClick={() => {getStock("TIME_SERIES_DAILY", '30min')}}>Daily</button>
-                <button onClick={() => {getStock("TIME_SERIES_WEEKLY")}}>Weekly</button>
-                <button onClick={() => {getStock("TIME_SERIES_Monthly")}}>Monthly</button>
+            <div className="btn-group">
+                <button onClick={() => {getStock('5min', 'd')}}>Daily</button>
+                <button onClick={() => {getStock('15min', 'w')}}>Weekly</button>
+                <button onClick={() => {getStock('30min', 'm')}}>Monthly</button>
             </div>
 
         </div>

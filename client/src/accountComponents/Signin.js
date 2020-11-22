@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import 'bulma/css/bulma.css';
+import '../styles/Signin.css';
 
 export default function Signin() {
     const email = useRef()
@@ -7,8 +8,7 @@ export default function Signin() {
 
     return (
         <div className="container">
-            <div className="columns">
-                <div className="column is-half">
+            <div className="columns" id="signCol">
                     <form className="field" onSubmit={login}>
                         <div>
                             <p>Sign in below</p>
@@ -26,7 +26,6 @@ export default function Signin() {
                             <p>Do not have an account? <a href="/register">Sign-up</a>.</p>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     )
@@ -38,6 +37,7 @@ export default function Signin() {
                 email: email.current.value,
                 password: password.current.value
             }
+            console.log(formData.password);
             formData = JSON.stringify(formData)
             const response = await fetch('/signin', {
                 method: 'POST',
@@ -45,7 +45,6 @@ export default function Signin() {
                 headers: { 'Content-Type': 'application/json' }
             })
             const result = await response.json() 
-            console.log(response)
             if (response.status === 200 ) {
                 window.location.href = '/'
             } else {

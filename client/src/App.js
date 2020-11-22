@@ -5,9 +5,10 @@ import Stock from './routes/Stock'
 import Learn from './routes/Learn'
 import Signin from './routes/Signin'
 import Register from './routes/Register'
-import './styles/App.css';
-import 'bulma/css/bulma.css';
+import Logout from './routes/Logout'
 
+import './styles/App.css';
+import 'bulma/css/bulma.css' 
 function App() {
   return (
     <div className="container">
@@ -20,6 +21,7 @@ function App() {
                 <Link className="navbar-item" to="/Learn"><div>Learn</div></Link>
                 <Link className="navbar-item" to="/signin"><div>Sign-in</div></Link>
                 <Link className="navbar-item" to="/register"><div>Register</div></Link>
+                <Link className="navbar-item" to="/logout"><div>Logout</div></Link>
               </div>
             </div>
           </div>
@@ -30,6 +32,7 @@ function App() {
             <Route path="/learn" exact component={Learn} />
             <Route path="/signin" exact component={Signin} />
             <Route path="/register" exact component={Register} />
+            <Route path="/logout" exact component={Logout}/>
             <Route path="/:symbol" component={Stock} />
           </Switch>
         </div>

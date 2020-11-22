@@ -1,24 +1,58 @@
-import React, { useState, useRef, useEffect } from 'react'
-import '../styles/Search.css'
-import stockimg from '../img/stock.jpg'
+import React, { useState, useRef, useEffect } from 'react';
+import '../styles/Search.css';
+import stockimg from '../img/stock.jpg';
 import 'bulma/css/bulma.css';
+import {subreddit} from './redditApi.js';
+import { RedditPost } from './redditPost.js';
 
 export default function Search() {
     const [list, setList] = useState([])
     const searchBar = useRef()
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         setList(getList())
     }, [])
 
+    useEffect(() => {
+        (async () => {
+            const data = await subreddit({
+                page: {
+                    name: 'wallstreetbets',
+                    is_subreddit: true
+                }
+            });
+            const children = data.data.children.map(r => {
+                return r.data
+            });
+            setPosts([children[2], children[3], children[4],  children[5]]);
+        })();
+    }, [])
     return (
         <div>
-            <div className="level-left">
+                <div className="level-left" id="searchbar">
                 <label className="level-item mr-2">Type a Stock Ticker</label>
                 <input ref={searchBar} input="text" className="search level-item mr-2" placeholder="Search stock..." />
                 <button className="button is-rounded level-item" onClick={getStock}>Search</button>
                 </div>
-                <img className = 'stockimg' src= {stockimg}></img>
+               
+                <div className="container">
+                    <div className="columns">
+                        <div className="column">
+                        <img className = 'stockimg' src= {stockimg}></img>
+                        </div>
+                        <div className="column" id="newsfeed">
+                            <p id = "listTitle">r/WallStreetBets Reddit News Feed</p>
+                            {
+                                posts.map(post => <RedditPost key = {post.id} post={post}/>)
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+                
+
 
         </div>
     )
