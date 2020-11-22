@@ -1,7 +1,7 @@
 import React, { props, useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import '../styles/Data.css'
-
+import '../styles/Data.css';
+import jwt from 'jwt-decode';
 export default function Data({ ticker }) {
     const [dataSet, setDataSet] = useState()
     const [closeData, setCloseData] = useState([])
@@ -9,7 +9,7 @@ export default function Data({ ticker }) {
     const [volumeData, setVolumeData] = useState([])
     const [time, setTime] = useState([])
     const [type, setType] = useState([])
-
+    const email = jwt(document.cookie).client.email;
     async function getStock(interval, type) {
         try {
             const response = await fetch('/stock', {
@@ -19,8 +19,22 @@ export default function Data({ ticker }) {
             })
             const data = await response.json()
             setType(type);
-            console.log(type)
             setDataSet(data);
+        } catch (err) {
+            console.log(err)
+            alert("Error: " + err)
+        }
+    }
+
+    async function addWatch(ticker, email) {
+        try {
+            const response = await fetch('/watchlist', {
+                method: 'POST', 
+                body: JSON.stringify({ ticker: ticker, email: email}),
+                headers: { 'Content-Type': 'application/json', 'authorization': `${document.cookie.split("=")[1]}`}
+            })
+            const data = await response.json();
+            console.log(data);
         } catch (err) {
             console.log(err)
             alert("Error: " + err)
@@ -43,7 +57,6 @@ export default function Data({ ticker }) {
         if (type === 'd'){
             count = 1;
         } else if (type ==='w'){
-            console.log('weeek')
             count = 5;
         } else if(type === 'm') {
             count = 20;   
@@ -122,6 +135,8 @@ export default function Data({ ticker }) {
                 <button onClick={() => {getStock('5min', 'd')}}>Daily</button>
                 <button onClick={() => {getStock('15min', 'w')}}>Weekly</button>
                 <button onClick={() => {getStock('30min', 'm')}}>Monthly</button>
+                <button onClick={() => {addWatch(ticker, email)}}>Add To Watchlist</button>
+
             </div>
 
         </div>

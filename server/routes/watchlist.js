@@ -3,7 +3,7 @@ const router = express.Router();
 const Stock = require('../model/stockmodel');
 const auth = require('../authenticate');
 router.get("/", auth, (req, res, next) => {
-    Stock.find()
+    Stock.find({email: req.headers.email})
       .exec()
       .then(docs => {
         console.log(docs);
@@ -19,26 +19,16 @@ router.get("/", auth, (req, res, next) => {
 
 router.post('/', auth, (req, res, next) => {
     const newStock = new Stock({
-        ticker: req.body.ticker
+        ticker: req.body.ticker,
+        email: req.body.email
     })
     newStock.save().then(res => console.log(res)).catch(err => console.log(err))
 
     res.status(200).json({
-        message: 'Handling POST requests to /products',
-        ticker: newStock
+        message: 'Handling POST requests to /watchlist',
+        ticker: newStock,
     });
 });
-
-router.get('/:stockId', (req, res, next) => {
-    const id = req.params.stockId;
-    Stock.findById(id).exec()
-    .then(doc => {
-        console.log(doc)
-        res.status(200).json(doc)
-    })
-    .catch(err => res.status(500).json({error: err}))
-});
-
 
 router.delete("/:stockId", auth, (req, res, next) => {
     const id = req.params.stockId;

@@ -4,6 +4,7 @@ import stockimg from '../img/stock.jpg';
 import 'bulma/css/bulma.css';
 import {subreddit} from './redditApi.js';
 import { RedditPost } from './redditPost.js';
+import watchlistComponent from './watchlistComponent';
 
 export default function Search() {
     const [list, setList] = useState([])
@@ -40,6 +41,7 @@ export default function Search() {
                     <div className="columns">
                         <div className="column">
                         <img className = 'stockimg' src= {stockimg}></img>
+                        {watchlistComponent}
                         </div>
                         <div className="column" id="newsfeed">
                             <p id = "listTitle">r/WallStreetBets Reddit News Feed</p>
