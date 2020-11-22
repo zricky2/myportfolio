@@ -4,13 +4,12 @@ import stockimg from '../img/stock.jpg';
 import 'bulma/css/bulma.css';
 import {subreddit} from './redditApi.js';
 import { RedditPost } from './redditPost.js';
-import watchlistComponent from './watchlistComponent';
+import WatchlistComponent from './WatchlistComponent';
 
 export default function Search() {
     const [list, setList] = useState([])
     const searchBar = useRef()
     const [posts, setPosts] = useState([]);
-
     useEffect(() => {
         setList(getList())
     }, [])
@@ -28,8 +27,8 @@ export default function Search() {
             });
             setPosts([children[2], children[3], children[4],  children[5]]);
         })();
-    }, [])
-    return (
+    }, [])      
+        return (
         <div>
                 <div className="level-left" id="searchbar">
                 <label className="level-item mr-2">Type a Stock Ticker</label>
@@ -41,7 +40,7 @@ export default function Search() {
                     <div className="columns">
                         <div className="column">
                         <img className = 'stockimg' src= {stockimg}></img>
-                        {watchlistComponent}
+                        {<WatchlistComponent/>}
                         </div>
                         <div className="column" id="newsfeed">
                             <p id = "listTitle">r/WallStreetBets Reddit News Feed</p>
@@ -58,7 +57,7 @@ export default function Search() {
 
         </div>
     )
-
+    
     async function getStock() {
         const symbol = searchBar.current.value.toUpperCase()
         window.location = `/${symbol}`
