@@ -7,7 +7,7 @@
 }
 
 #newsfeed {
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 #searchbar {
@@ -26,6 +26,7 @@
 }
 
 #listTitle {
+    margin-top: 1rem;
     margin-bottom: 1rem;
     margin-left: 1rem;
     font-size: 22px;
@@ -33,3 +34,39 @@
     text-align: left;
     text-decoration: underline;
 }
+
+.removeButton {
+    display: flex;
+    text-align: center;
+    margin-left: 3rem;
+}
+.removeButton button {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    background-color: #f34f4f; 
+    border: 1px solid red;
+    color: white; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    float: left;
+  }
+  
+.removeButton button:not(:last-child) {
+    border-right: none; 
+  }
+
+  .removeButton:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+.removeButton button:hover {
+    background-color: #ee6d6d;
+  }
+
+  #stockTicker {
+    font-size: 30px;
+    font-weight: 600;
+  }

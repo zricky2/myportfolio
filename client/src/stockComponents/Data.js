@@ -9,7 +9,13 @@ export default function Data({ ticker }) {
     const [volumeData, setVolumeData] = useState([])
     const [time, setTime] = useState([])
     const [type, setType] = useState([])
-    const email = jwt(document.cookie).client.email;
+    
+    let email;
+    try{
+        email = jwt(document.cookie).client.email;
+    } catch {
+        email = "";
+    }
     async function getStock(interval, type) {
         try {
             const response = await fetch('/stock', {
