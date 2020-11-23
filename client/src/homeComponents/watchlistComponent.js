@@ -4,7 +4,6 @@ import jwt from 'jwt-decode';
 
 export default function WatchlistComponent() {
     const [list, setList] = useState([]);
-
     useEffect(() => {
         getList()
     }, [])
