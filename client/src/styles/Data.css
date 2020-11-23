@@ -1,0 +1,37 @@
+.stockContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.btn-group button {
+    margin-top: 2rem;
+    margin-right: 1rem;
+    border-radius: 4px;
+    background-color: #4fe053; 
+    border: 1px solid green;
+    color: white; 
+    padding: 10px 24px; 
+    cursor: pointer; 
+    float: left;
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-right: none; 
+  }
+   
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .btn-group button:hover {
+    background-color: #4fb353;
+  }
