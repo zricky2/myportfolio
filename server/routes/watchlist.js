@@ -31,7 +31,7 @@ router.post('/', auth, (req, res, next) => {
 });
 
 router.delete("/", auth, (req, res, next) => {
-    Stock.deleteOne({ _id: req.body.id })
+    Stock.remove({ _id: req.body.id })
       .exec()
       .then(result => {
         res.status(200).json(result);
