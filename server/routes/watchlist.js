@@ -30,9 +30,8 @@ router.post('/', auth, (req, res, next) => {
     });
 });
 
-router.delete("/:stockId", auth, (req, res, next) => {
-    const id = req.params.stockId;
-    Stock.remove({ _id: id })
+router.delete("/", auth, (req, res, next) => {
+    Stock.deleteOne({ _id: req.body.id })
       .exec()
       .then(result => {
         res.status(200).json(result);
