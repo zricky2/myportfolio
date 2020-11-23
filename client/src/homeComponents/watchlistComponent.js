@@ -3,36 +3,29 @@ import '../styles/Search.css'
 import jwt from 'jwt-decode';
 
 export default function WatchlistComponent() {
-    const [list, setList] = useState(["ricky", "chris"]);
-    let email;
+    const [list, setList] = useState([]);
+
     useEffect(() => {
-        setList(getList())
-        
+        getList()
     }, [])
-    try{
-        email = jwt(document.cookie).client.email;
-        email = email + "'s";
-    } catch {
-        email = "";
-    }
+
     let id = "the _id of each list[i]";
     return (
         <div>
-            <p id = "listTitle">{email} Watchlist</p>
-            <p>
-                Stock:
-               {list[0]}
-               <button value={id} onClick={() => {removeWatch(id)}}>Remove</button>
-            </p>
+            <p id="listTitle">{userEmail()} Watchlist</p>
+            <ul>
+                Stock: {list.map(ticker => <ol>{ticker}</ol>)}
+                <button value={id} onClick={() => { removeWatch(id) }}>Remove</button>
+            </ul>
         </div>
     )
 
     async function removeWatch(id) {
         try {
             const response = await fetch('/watchlist', {
-                method: 'DELETE', 
-                body: JSON.stringify({ id: id}),
-                headers: { 'Content-Type': 'application/json', 'authorization': `${document.cookie.split("=")[1]}`}
+                method: 'DELETE',
+                body: JSON.stringify({ id: id }),
+                headers: { 'Content-Type': 'application/json', 'authorization': `${document.cookie.split("=")[1]}` }
             })
             const data = await response.json();
             console.log(data);
@@ -46,17 +39,22 @@ export default function WatchlistComponent() {
         try {
             const response = await fetch('/watchlist', {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json', 'email':`${jwt(document.cookie).client.email}`, 'authorization': `${document.cookie.split("=")[1]}`}
+                headers: { 'Content-Type': 'application/json', 'email': `${jwt(document.cookie).client.email}`, 'authorization': `${document.cookie.split("=")[1]}` }
             })
             let tickerList = await response.json();
-           // console.log(tickerList.map((tic) => tic.ticker));
-            let ret = await tickerList.map((tic) => tic.ticker);
-            console.log(ret);
-            return ret;
-            ;
+            const result = tickerList.map((tic) => tic.ticker);
+            setList(result);
         } catch {
-            console.log("fail get list");
-            return ["fail"];
+            console.log("Error retrieving list");
+        }
+    }
+
+    function userEmail() {
+        try {
+            let email = jwt(document.cookie).client.email;
+            return email + "'s";
+        } catch {
+            return "";
         }
     }
 };

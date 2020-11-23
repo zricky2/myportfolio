@@ -5,17 +5,11 @@ const registerRouter = require('./routes/register')
 const signinRouter = require('./routes/signin')
 const indexRouter = require('./routes/index')
 const watchlistRouter = require('./routes/watchlist')
-
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 const connectToDB = require('./model/db')
 const fs = require('fs')
 const axios = require('axios')
 
 app.use(express.json()); //Used to parse JSON bodies
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.use(cookieParser());
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
