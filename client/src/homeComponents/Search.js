@@ -4,7 +4,7 @@ import stockimg from '../img/stock.jpg';
 import 'bulma/css/bulma.css';
 import {subreddit} from './redditApi.js';
 import { RedditPost } from './redditPost.js';
-import WatchlistComponent from './WatchlistComponent';
+import WatchlistComponent from './watchlistComponent';
 
 export default function Search() {
     const [list, setList] = useState([])
