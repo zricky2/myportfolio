@@ -20,7 +20,7 @@ router.post('/signin', async (req, res) => {
                 expiresIn: "1hr",
             })
             //console.log("token:", token)
-            res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
+            // res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
 
             res.status(200).json({result: "success",
                                   token: token})

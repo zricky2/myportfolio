@@ -35,7 +35,7 @@ export default function Search() {
             <img className="stockimg" src={stockimg}></img>
             {<WatchlistComponent />}
           </div>
-          <div className="column" id="newsfeed">
+          <div className="column" style={{paddingLeft: "40px"}} id="newsfeed">
             <p id="listTitle">r/WallStreetBets Reddit News Feed</p>
             {posts.map((post) => (
               <RedditPost key={post.id} post={post} />
@@ -47,7 +47,7 @@ export default function Search() {
   );
 
   async function getList() {
-    const response = await fetch("/index", {
+    const response = await fetch("https://my-portfolio-backend1.herokuapp.com/index", {
       headers: { "Content-Type": "application/json" },
     });
     const tickerList = await response.json();

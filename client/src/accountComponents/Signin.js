@@ -39,13 +39,14 @@ export default function Signin() {
             }
             console.log(formData.password);
             formData = JSON.stringify(formData)
-            const response = await fetch('/signin', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/signin`, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Content-Type': 'application/json' }
             })
             const result = await response.json() 
             if (response.status === 200 ) {
+              document.cookie = `token=${result.token}`;
                 window.location.href = '/'
             } else {
                 alert(result.result)

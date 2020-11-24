@@ -18,7 +18,7 @@ export default function Data({ ticker }) {
     }
     async function getStock(interval, type) {
         try {
-            const response = await fetch('/stock', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}\stock`, {
                 method: 'POST', 
                 body: JSON.stringify({ stock: ticker, interval: interval}),
                 headers: { 'Content-Type': 'application/json' }
@@ -34,7 +34,7 @@ export default function Data({ ticker }) {
 
     async function addWatch(ticker, email) {
         try {
-            const response = await fetch('/watchlist', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}\watchlist`, {
                 method: 'POST', 
                 body: JSON.stringify({ ticker: ticker, email: email}),
                 headers: { 'Content-Type': 'application/json', 'authorization': `${document.cookie.split("=")[1]}`}

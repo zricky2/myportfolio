@@ -40,7 +40,7 @@ export default function Register() {
                 password: password.current.value
             }
             formData = JSON.stringify(formData)
-            const response = await fetch('/register', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/register`, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Content-Type': 'application/json' }

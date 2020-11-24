@@ -12,10 +12,10 @@ const axios = require('axios')
 app.use(express.json()); //Used to parse JSON bodies
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin","*");
     res.header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization, Email, email"
     );
     if (req.method === "OPTIONS") {
       res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
 connectToDB();
 
 //routes
-app.use('/watchlist', watchlistRouter)
+app.use(watchlistRouter)
 
 app.use(indexRouter)
 app.use(stockDataRouter)

@@ -19,7 +19,7 @@ export default function WatchlistComponent() {
 
     async function removeWatch(id) {
         try {
-            const response = await fetch('/watchlist', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/watchlist`, {
                 method: 'DELETE',
                 body: JSON.stringify({ id: id }),
                 headers: { 'Content-Type': 'application/json', 'authorization': `${document.cookie.split("=")[1]}` }
@@ -34,7 +34,7 @@ export default function WatchlistComponent() {
 
     async function getList() {
         try {
-            const response = await fetch('/watchlist', {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/watchlist`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json', 'email': `${jwt(document.cookie).client.email}`, 'authorization': `${document.cookie.split("=")[1]}` }
             })

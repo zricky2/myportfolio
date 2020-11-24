@@ -2,7 +2,7 @@ const express  = require('express');
 const router = express.Router();
 const Stock = require('../model/stockmodel');
 const auth = require('../authenticate');
-router.get("/", auth, (req, res, next) => {
+router.get("/watchlist", auth, (req, res, next) => {
     Stock.find({email: req.headers.email})
       .exec()
       .then(docs => {
@@ -17,7 +17,7 @@ router.get("/", auth, (req, res, next) => {
       });
   });
 
-router.post('/', auth, (req, res, next) => {
+router.post('/watchlist', auth, (req, res, next) => {
     const newStock = new Stock({
         ticker: req.body.ticker,
         email: req.body.email
@@ -30,7 +30,7 @@ router.post('/', auth, (req, res, next) => {
     });
 });
 
-router.delete("/", auth, (req, res, next) => {
+router.delete("/watchlist", auth, (req, res, next) => {
     Stock.remove({ _id: req.body.id })
       .exec()
       .then(result => {
